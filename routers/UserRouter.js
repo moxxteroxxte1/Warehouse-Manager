@@ -57,7 +57,19 @@ router.post('/add', async (req, res) => {
 
 //GET USER PROFILE (GET)
 router.get('/:id', (req, res) => {
-    res.render('./user/main', {user: {id: req.session.id, admin: req.session.admin}})
+    var user = []
+    connection.query('SELECT * FROM accounts WHERE id = ?', [req.params.id],function (error, results, fields) {
+        // If there is an issue with the query, output the error
+        if (error) throw error;
+        // If the account exists
+        if (results.length > 0) {
+            for (const key of Object.keys(results)) {
+                var row = results[key];
+                user.push(row)
+            }
+        }
+        res.render('./user/main', {user: {id: req.session.id, admin: req.session.admin}, edit: user[0]})
+    })
 })
 
 
@@ -70,9 +82,10 @@ router.post('/:id/delete', (req, res) => {
 })
 
 router.post('/:id/update', async (req, res) => {
-    var {id, user, password, name, lastname, admin} = req.body;
+    var {id, name, lastname, username, password, admin} = req.body;
+    console.log(req.body)
 
-    if (!(user && password && name && lastname && admin)) {
+    if (!(username && name && lastname && admin)) {
         return res.status(400).send({error: "Data not formatted properly"});
     }
 
@@ -80,13 +93,23 @@ router.post('/:id/update', async (req, res) => {
         admin = admin[0]
     }
 
-    const salt = await bcrypt.genSalt(10);
-    hashedPassword = await bcrypt.hash(password, salt);
+    if(password != ''){
+        const salt = await bcrypt.genSalt(10);
+        hashedPassword = await bcrypt.hash(password, salt);
 
-    connection.query('UPDATE `accounts` SET `name`=?,`lastname`=?,`username`=?,`password`=?,`admin`=? WHERE id=?', [name, lastname, user, hashedPassword, admin, id], function (error, results, fields) {
-        if (error)
-            throw error;
-    });
+        connection.query('UPDATE `accounts` SET `name`=?,`lastname`=?,`username`=?,`password`=?,`admin`=? WHERE id=?', [name, lastname, username, hashedPassword, admin, id], function (error, results, fields) {
+            if (error)
+                throw error;
+        });
+    }else{
+        connection.query('UPDATE `accounts` SET `name`=?,`lastname`=?,`username`=?, `admin`=? WHERE id=?', [name, lastname, username, admin, id], function (error, results, fields) {
+            if (error)
+                throw error;
+        });
+    }
+
+
+
 
     return res.redirect('/user/'+id);
 })

@@ -16,6 +16,9 @@ div(class="container" style="margin-top: 5rem")
                 tr
                     th(scope="row")=u.id
                     td= u.name
+                        if(u.admin == 1)
+                            br
+                            span.badge.badge-secondary Administrator
                     td= u.lastname
                     td= u.username
                     td

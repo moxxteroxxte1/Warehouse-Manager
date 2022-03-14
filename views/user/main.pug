@@ -1,2 +1,52 @@
 - let breadcrump = "user/main"
 include ../header
+
+link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet')
+.container
+        .col
+            .row
+                .col.mb-3
+                    .card
+                        .card-body
+                            .e-profile
+                                .row
+                                    .col.d-flex.flex-column.flex-sm-row.justify-content-between.mb-3
+                                        .text-center.text-sm-left.mb-2.mb-sm-0
+                                            h4.pt-sm-2.pb-1.mb-0.text-nowrap= edit.name + " " + edit.lastname
+                                            p.mb-0="@" + edit.username
+                                        .text-center.text-sm-right
+                                            if(edit.admin)
+                                                span.badge.badge-secondary administrator
+                                .tab-content.pt-3
+                                    .tab-pane.active
+                                        form.form(novalidate='' action="/user/"+edit.id+"/update" method="post")
+                                            input(type="hidden" name="id" value=edit.id)
+                                            .row
+                                                .col
+                                                    .row
+                                                        .col
+                                                            .form-group
+                                                                label Name und Nachname
+                                                                .input-group
+                                                                    input.form-control(type='text' name='name' placeholder='Vorname' value=edit.name)
+                                                                    input.form-control(type='text' name='lastname' placeholder='Nachname' value=edit.lastname)
+                                                        .col
+                                                            .form-group
+                                                                label Benutzername
+                                                                input.form-control(type='text' name='username' placeholder='Benutzername' value=edit.username)
+                                            .row
+                                                .col-12.col-sm-6.mb-3
+                                                    .row
+                                                        .col
+                                                            .form-group
+                                                                label Passwort
+                                                                input.form-control(type='password' name="password")
+                                                .col-12.col-sm-5.offset-sm-1.mb-3
+                                                    .container(style="width: 30%; margin-top: 1rem;")
+                                                        .form-check
+                                                            input(class="form-check-input" type="checkbox" value="1" id="admin" name="admin" checked=(edit.admin==1))
+                                                            input(type="hidden" name="admin" value="0")
+                                                            label(class="form-check-label" for="admin") Administrator
+                                            .row
+                                                .col.d-flex.justify-content-end
+                                                    button.btn.btn-primary(type='submit') Save Changes

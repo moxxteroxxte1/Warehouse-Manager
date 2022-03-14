@@ -38,3 +38,7 @@ button.btn-danger {
 button.btn-success {
     background-color: #198754;
 }
+
+span.badge {
+    background-color: darkgray;
+}
