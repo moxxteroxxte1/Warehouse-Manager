@@ -1,0 +1,25 @@
+User:
+    Anlegen (Modal?)
+    Editiren (Modal?)
+
+Product:
+    Sync mit shop? (Button oder einmal am Tag?)
+        -reine existenz des Produktes
+        -lagerbestand?!?
+    MainPage (Infos und Lagerplatz)
+    Löschen (Modal!)
+    Editiren (Modal?)
+    Hinzufügen (Modal?)
+
+Lagerplatz
+    MainPage (Infos und Lagerplatz)
+    Löschen (Modal!)
+    Editiren (Modal?)
+    Hinzufügen (Modal?)
+
+Zuweisungen Product und Lagerplatz
+    Auflistung aller
+    Suche (Article number/Article name/location id/location name)
+    bearbeiten
+    hinzufügen
+    löschen

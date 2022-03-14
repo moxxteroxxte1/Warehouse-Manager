@@ -1,0 +1,40 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+    font-family: "Roboto";
+    color: #292b2b;
+    text-align: center !important;
+}
+
+img {
+    width: 80%;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: none;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+}
+div.centerForm {
+    width: 80% !important;
+    margin: auto;
+}
+
+button.btn, a.btn{
+    color: #ffffff;
+    width: 100%;
+    border: 0;
+    background-color: #5495bc;
+}
+
+button.btnLogOut {
+    width: 50% !important;
+}
+
+button.btn-danger {
+    background-color: red !important;
+}
+
+button.btn-success {
+    background-color: #198754;
+}

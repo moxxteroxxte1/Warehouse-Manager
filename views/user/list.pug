@@ -1,0 +1,77 @@
+- let breadcrump = "user/list"
+- let title = "Benutzerverwaltung"
+include ../header
+
+div(class="container" style="margin-top: 5rem")
+    table(class="table")
+        thead
+            tr
+                th(scope="col") #
+                th(scope="col") Name
+                th(scope="col") Nachname
+                th(scope="col") Benutzername
+                th(scope="col")
+        tbody
+            each u in users
+                tr
+                    th(scope="row")=u.id
+                    td= u.name
+                    td= u.lastname
+                    td= u.username
+                    td
+                        form(action="/user/" + u.id method="get" id="edit-user-"+u.id)
+                        div(class="btn-group" role="group")
+                            button(class="btn" type="submit" form="edit-user-"+u.id)
+                                    span(class="oi oi-wrench")
+                            button(type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id=u.id data-name=u.username)
+    div(class="container" style="width: 15vw; margin-top: 6rem")
+        button(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createModal" style="margin: auto;") Hinzufügen
+
+div(class="modal fade" id="deleteModal" aria-labelledby="User Delete verification" ria-hidden="true")
+    div(class="modal-dialog")
+        div(class="modal-content")
+            div(class="modal-header")
+                h5(class="modal-title" id="deleteModalLabel")
+                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+            div(class="modal-body")
+                form(id="user-delete-form-action" method="post")
+                    p Dieser Benutzer wird dauerhaft entfernt
+            div(class="modal-footer")
+                button(type="button" class="btn" data-bs-dismiss="modal") schließen
+                button(type="submit" form="user-delete-form-action" class="btn btn-danger") löschen
+
+script.
+    document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        document.getElementById('deleteModalLabel').innerText = 'Sicher das du ' + button.getAttribute('data-name') + " löschen möchtest?"
+        document.getElementById('user-delete-form-action').action = "/user/" + button.getAttribute('data-id')+"/delete"
+    })
+
+div(class="modal fade" id="createModal" aria-labelledby="User Delete verification" ria-hidden="true")
+    div(class="modal-dialog")
+        div(class="modal-content")
+            div(class="modal-header")
+                h5(class="modal-title" id="createModalLable") Neuen Benutzer hinzufügen!
+                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+            div(class="modal-body")
+                form(id="user-create-form" action="/user/add" method="post")
+                    div(class="mb-3")
+                        lable(for="name" class="col-form-lable") Vorname:
+                        input(class="form-control" id="name" placeholder="Vorname" name="name")
+                    div(class="mb-3")
+                        lable(for="lastname" class="col-form-lable") Nachname:
+                        input(class="form-control" id="lastname" placeholder="Nachname" name="lastname")
+                    div(class="mb-3")
+                        lable(for="user" class="col-form-lable") Benutzername:
+                        input(class="form-control" id="user" placeholder="Benutzername" name="user")
+                    div(class="mb-3")
+                        lable(for="password" class="col-form-lable") Passwort:
+                        input(class="form-control" id="password" name="password" placeholder="Passwort")
+                    div(class="mb-3")
+                        div(class="form-check")
+                            input(class="form-check-input" type="checkbox" value="1" id="admin" name="admin")
+                            input(type="hidden" name="admin" value="0")
+                            label(class="form-check-label" for="admin") Administrator
+            div(class="modal-footer")
+                button(type="button" class="btn" data-bs-dismiss="modal") schließen
+                button(type="submit" form="user-create-form" class="btn btn-success") hinzufügen
